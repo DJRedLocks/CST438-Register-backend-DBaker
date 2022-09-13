@@ -28,22 +28,28 @@ public class StudentController
    @PostMapping("/createstudent")
    @Transactional
    private Student createStudent(
-      String student_email,
-      String name
+      //@RequestBody Student newStudent
+         
+         
+      @RequestParam String student_email,
+      @RequestParam String name
+      
    ) {
-      Student student = studentRepository.findByEmail(student_email);
+      Student student = studentRepository.findByEmail( student_email );
       
       if(student == null) {
          
          Student s = new Student();
-         s.setEmail(student_email);
          s.setName(name);
+         s.setEmail(student_email);
          s.setStatusCode(0);
          
-         //Student savedStudent = studentRepository.save(s);
+         //studentRepository.save(s);
+         //return s;
+
+         Student savedStudent = studentRepository.save(s);
          
-         //return savedStudent;
-         return s;
+         return savedStudent;
          
       } else {
          throw new ResponseStatusException( 
