@@ -88,7 +88,6 @@ public class StudentController
       }
    }
    
-   
    /*
     * Release Hold - Release a hold on a Student's registration status
     * releaseHold
