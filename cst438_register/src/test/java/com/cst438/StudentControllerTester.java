@@ -1,6 +1,7 @@
 package com.cst438;
 
-
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cst438.controller.ScheduleController;
 import com.cst438.controller.StudentController;
+import com.cst438.domain.ScheduleDTO;
 import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,33 +57,30 @@ public class StudentControllerTester {
    private MockMvc mvc;
 
    @Test
-   private void createStudent() throws Exception {
+   public void createStudent() throws Exception {
+      
       MockHttpServletResponse response;
       
-      Student student = studentRepository.findByEmail( TEST_STUDENT_EMAIL );
-      
-      if(student == null) {
-         
+      //Student student = studentRepository.findByEmail( TEST_STUDENT_EMAIL );
+      //Successful add test         
          Student s = new Student();
          s.setName(TEST_STUDENT_NAME);
          s.setEmail(TEST_STUDENT_EMAIL);
          s.setStatusCode(0);
-
+         s.setStudent_id(99);
+         given( studentRepository.save( any() ) ).willReturn(s);
          response = mvc.perform(
                MockMvcRequestBuilders
-                  .post("/createstudent"))
+                  .post("/createstudent?student_email=" + TEST_STUDENT_EMAIL + "&name=" + TEST_STUDENT_NAME))
                .andReturn().getResponse();
          
          // verify that return status = OK (value 200) 
          assertEquals(200, response.getStatus());
-      
-         Student savedStudent = studentRepository.save(s);
-         
-         Student retrieveStudent = studentRepository.findByEmail(TEST_STUDENT_EMAIL);
-         
+         Student retrieveStudent = fromJsonString(response.getContentAsString(), Student.class);
+
          assertEquals(TEST_STUDENT_EMAIL, retrieveStudent.getEmail());
-      }
    }
+   
    
 
    /*
@@ -89,7 +88,7 @@ public class StudentControllerTester {
     * setRegHold
     * */
    @Test
-   private void setRegHold() throws Exception {
+   public void setRegHold() throws Exception {
       MockHttpServletResponse response;
 
       Student teststudent = new Student();
