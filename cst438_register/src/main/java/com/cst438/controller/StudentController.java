@@ -3,6 +3,8 @@ package com.cst438.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3001"})
 public class StudentController
 {
    
@@ -25,9 +28,10 @@ public class StudentController
    /*
     * Create Student
     * */
-   @PostMapping("/createstudent")
+   @PostMapping("/addStudent")
    @Transactional
-   private Student createStudent(
+   private Student addStudent(
+
       //@RequestBody Student newStudent
          
          
