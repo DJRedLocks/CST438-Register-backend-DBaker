@@ -29,7 +29,7 @@ public class E2EStudentTest {
 		// Chrome   webdriver.chrome.driver     ChromeDriver
 		//
 		//@formatter:on
- //
+ 
 		//TODO update the property name for your browser 
 		System.setProperty("webdriver.chrome.driver",
                      CHROME_DRIVER_FILE_LOCATION);
